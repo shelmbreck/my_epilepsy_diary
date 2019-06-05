@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-# from .models import Dog, DogToy
-# from .serializers import serializers
+from .models import Seizure
+from .serializers import serializers
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -20,6 +20,7 @@ def seizures_index(request):
       serializer.save()
       return Response(serializer.data)
     return  Response(serializer.errors)
+] 
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def seizure_detail(request, pk):
