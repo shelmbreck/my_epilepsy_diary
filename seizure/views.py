@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Medication
-from .serializers import MedicationSerializer
+from .models import Seizure
+from .serializers import SeizureSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -9,24 +9,24 @@ from rest_framework.response import Response
 
 # Create your views here.
 @api_view(['GET', 'POST'])
-def medication_index(request):
+def seizure_index(request):
   if request.method == 'GET':
-    medications = Medication.objects.all()
-    serializer = MedicationSerializer(medications, many=True)
+    seizures = Seizure.objects.all()
+    serializer = SeizureSerializer(seizures, many=True)
     return Response(serializer.data)
   elif request.method == 'POST':
-    serializer = MedicationSerializer(data=request.data)
+    serializer = SeizureSerializer(data=request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data)
     return  Response(serializer.errors)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def medication_detail(request, pk):
-    medication = Medication.objects.get(pk=pk)
+def seizure_detail(request, pk):
+    seizure = Seizure.objects.get(pk=pk)
 
     if request.method == 'GET':
-      serializer = MedicationSerializer(medication)
+      serializer = SeizureSerializer(seizure)
       return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
       serializer = SeizureSerializer(seizure, data=request.data)
@@ -38,3 +38,4 @@ def medication_detail(request, pk):
       print("in here")
       seizure.delete()
       return Response(status=status.HTTP_204_NO_CONTENT)
+

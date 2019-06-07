@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Seizure
+from .models import DailyCalendar
 from .serializers import serializers
 
 from rest_framework import status
@@ -9,34 +9,32 @@ from rest_framework.response import Response
 
 # Create your views here.
 @api_view(['GET', 'POST'])
-def seizures_index(request):
+def daily_calendar_index(request):
   if request.method == 'GET':
-    seizures = Seizure.objects.all()
-    serializer = SeizureSerializer(seizures, many=True)
+    daily_calendar = DailyCalendar.objects.all()
+    serializer = DailyCalendarSerializer(daily_calendar, many=True)
     return Response(serializer.data)
   elif request.method == 'POST':
-    serializer = Seizure Serializer(data=request.data)
+    serializer = DailyCalendarSerializer(data=request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data)
     return  Response(serializer.errors)
-] 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def seizure_detail(request, pk):
-    seizure = Seizure.objects.get(pk=pk)
+def daily_calendar_detail(request, pk):
+    daily_calendar = DailyCalendar.objects.get(pk=pk)
 
     if request.method == 'GET':
-      serializer = SeizureSerializer(seizure)
+      serializer = DailyCalendarSerializer(daily_calendar)
       return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
-      serializer = SeizureSerializer(seizure, data=request.data)
+      serializer = DailyCalendarSerializer(daily_calendar, data=request.data)
       if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
       print("in here")
-      seizure.delete()
+      daily_calendar.delete()
       return Response(status=status.HTTP_204_NO_CONTENT)
-
